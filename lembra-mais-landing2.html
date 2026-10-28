@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lembra+ | Lembretes de remédio pelo WhatsApp para quem você ama</title>
+<meta name="description" content="O Lembra+ lembra seu pai, sua mãe ou seus avós de tomar o remédio pelo WhatsApp na hora certa e avisa você se eles não confirmarem. Sem instalar aplicativo.">
+<meta name="theme-color" content="#0F3D3A">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lembra+ | Lembretes de remédio pelo WhatsApp">
+<meta property="og:description" content="O Lembra+ lembra seu pai, sua mãe ou seus avós de tomar o remédio pelo WhatsApp na hora certa e avisa você se eles não confirmarem.">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Lembra+">
+
+<!-- Favicon emoji -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --verde-escuro: #0F3D3A;
+  --off-white: #F6F4EE;
+  --laranja: #F2A33A;
+  --verde-titulo: #0B7A4B;
+  --texto: #17302E;
+  --texto-claro: #E8E5DC;
+  --branco: #ffffff;
+  --cinza-borda: #D9D4C7;
+  --laranja-hover: #E89524;
+  --verde-claro: #1a524d;
+  --verde-suave: #E6F0EC;
+  --vermelho-suave: #FBE9E7;
+  --vermelho: #D84A38;
+  --radius: 18px;
+  --radius-pequeno: 10px;
+  --sombra: 0 4px 24px rgba(15, 61, 58, 0.10);
+  --sombra-forte: 0 8px 40px rgba(15, 61, 58, 0.18);
+  --transicao: 0.3s ease;
+}
+
+html { scroll-behavior: smooth; font-size: 18px; }
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--off-white);
+  color: var(--texto);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== ACESSIBILIDADE ===== */
+:focus-visible {
+  outline: 3px solid var(--laranja);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); border: 0;
+}
+
+.skip-link {
+  position: absolute; top: -40px; left: 0;
+  background: var(--verde-escuro); color: var(--texto-claro);
+  padding: 10px 20px; border-radius: 0 0 8px 0;
+  z-index: 1000; font-weight: 700;
+}
+.skip-link:focus { top: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section { padding: 80px 0; }
+
+/* ===== BOTÕES ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 36px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transicao);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.btn-principal {
+  background: var(--laranja);
+  color: var(--verde-escuro);
+  box-shadow: 0 4px 16px rgba(242, 163, 58, 0.35);
+}
+.btn-principal:hover {
+  background: var(--laranja-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(242, 163, 58, 0.45);
+}
+
+.btn-secundario {
+  background: transparent;
+  color: var(--texto-claro);
+  border: 2px solid rgba(232, 229, 220, 0.4);
+}
+.btn-secundario:hover {
+  border-color: var(--laranja);
+  color: var(--laranja);
+}
+
+.btn-pequeno {
+  font-size: 0.95rem;
+  padding: 10px 24px;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 61, 58, 0.97);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--texto-claro);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+.logo .mais { color: var(--laranja); }
+
+/* ===== HERO ===== */
+.hero {
+  background: var(--verde-escuro);
+  color: var(--texto-claro);
+  padding: 60px 0 70px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 40px;
+  background: var(--off-white);
+  clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 60%);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.hero-content h1 {
+  font-size: 2.6rem;
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+
+.hero-content h1 .destaque {
+  color: var(--laranja);
+}
+
+.hero-sub {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--texto-claro);
+  opacity: 0.9;
+  margin-bottom: 32px;
+  max-width: 520px;
+}
+
+.hero-botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.apoio {
+  font-size: 0.95rem;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.apoio svg { flex-shrink: 0; }
+
+/* ===== MOCKUP CELULAR ===== */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.celular {
+  width: 300px;
+  height: 560px;
+  background: #1a1a1a;
+  border-radius: 36px;
+  padding: 12px;
+  box-shadow: var(--sombra-forte);
+  position: relative;
+}
+
+.celular::before {
+  content: '';
+  position: absolute;
+  top: 22px; left: 50%;
+  transform: translateX(-50%);
+  width: 90px; height: 6px;
+  background: #333;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.tela {
+  width: 100%;
+  height: 100%;
+  background: #E5DDD5;
+  border-radius: 26px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.whats-header {
+  background: #075E54;
+  color: white;
+  padding: 36px 14px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.whats-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #25D366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.whats-info { flex: 1; }
+.whats-info strong { font-size: 0.85rem; display: block; }
+.whats-info span { font-size: 0.7rem; opacity: 0.8; }
+
+.whats-body {
+  flex: 1;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.msg {
+  max-width: 82%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  position: relative;
+  animation: msgEntrar 0.5s ease forwards;
+  opacity: 0;
+}
+
+.msg-bot {
+  background: white;
+  align-self: flex-start;
+  border-top-left-radius: 2px;
+  color: #333;
+}
+
+.msg-user {
+  background: #DCF8C6;
+  align-self: flex-end;
+  border-top-right-radius: 2px;
+  color: #333;
+}
+
+.msg-hora {
+  font-size: 0.6rem;
+  color: #999;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.msg:nth-child(1) { animation-delay: 0.3s; }
+.msg:nth-child(2) { animation-delay: 1.2s; }
+.msg:nth-child(3) { animation-delay: 2.2s; }
+
+@keyframes msgEntrar {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.whats-check {
+  display: inline-block;
+  color: #34B7F1;
+  font-size: 0.65rem;
+}
+
+/* ===== SEÇÕES CLARAS/ESCURAS ===== */
+.bg-claro { background: var(--off-white); color: var(--texto); }
+.bg-escuro { background: var(--verde-escuro); color: var(--texto-claro); }
+.bg-suave { background: var(--verde-suave); color: var(--texto); }
+
+/* ===== TÍTULOS DE SEÇÃO ===== */
+.section-titulo {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.bg-claro .section-titulo,
+.bg-suave .section-titulo {
+  color: var(--verde-titulo);
+}
+
+.bg-escuro .section-titulo {
+  color: var(--texto-claro);
+}
+
+.section-sub {
+  font-size: 1.15rem;
+  opacity: 0.85;
+  max-width: 600px;
+  margin-bottom: 50px;
+}
+
+/* ===== PROBLEMA ===== */
+.problema-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.problema-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.problema-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.problema-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--vermelho-suave);
+  border-radius: var(--radius-pequeno);
+  padding: 18px 20px;
+}
+
+.problema-card-icone {
+  flex-shrink: 0;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--vermelho);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.problema-card p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.problema-card strong { font-weight: 800; }
+
+/* ===== COMO FUNCIONA ===== */
+.passos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.passo {
+  text-align: center;
+  padding: 30px 24px;
+}
+
+.passo-numero {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--laranja);
+  color: var(--verde-escuro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin: 0 auto 20px;
+}
+
+.passo h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--verde-titulo);
+}
+
+.bg-escuro .passo h3 { color: var(--laranja); }
+
+.passo p {
+  font-size: 1rem;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+
+/* ===== BENEFÍCIOS ===== */
+.beneficios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.beneficio-card {
+  background: var(--branco);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  box-shadow: var(--sombra);
+  text-align: center;
+  transition: transform var(--transicao);
+  border: 1px solid var(--cinza-borda);
+}
+
+.beneficio-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra-forte);
+}
+
+.beneficio-icone {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beneficio-icone.verde { background: var(--verde-suave); color: var(--verde-titulo); }
+.beneficio-icone.laranja { background: #FFF0DB; color: var(--laranja); }
+.beneficio-icone.azul { background: #E3F2FD; color: #1565C0; }
+
+.beneficio-card h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--verde-titulo);
+}
+
+.beneficio-card p {
+  font-size: 0.98rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* ===== COMPARAÇÃO ===== */
+.tabela-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--sombra);
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--branco);
+  min-width: 640px;
+}
+
+.tabela th, .tabela td {
+  padding: 18px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--cinza-borda);
+}
+
+.tabela th {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--texto);
+  background: var(--off-white);
+}
+
+.tabela th:first-child {
+  text-align: left;
+}
+
+.tabela th.destaque-col,
+.tabela td.destaque-col {
+  background: var(--verde-suave);
+  position: relative;
+}
+
+.tabela th.destaque-col {
+  color: var(--verde-titulo);
+  font-weight: 900;
+}
+
+.tabela th.destaque-col::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--laranja);
+  border-radius: 4px 4px 0 0;
+}
+
+.tabela td:first-child {
+  text-align: left;
+  font-weight: 700;
+  color: var(--texto);
+}
+
+.tabela .sim { color: var(--verde-titulo); font-weight: 800; }
+.tabela .nao { color: var(--vermelho); font-weight: 800; }
+.tabela .parcial { color: #E8A000; font-weight: 700; }
+
+/* ===== VALIDAÇÃO ===== */
+.validacao-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.validacao-stat {
+  text-align: center;
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.validacao-numero {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--laranja);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.validacao-label {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+.validacao-citacao {
+  background: rgba(255,255,255,0.06);
+  border-left: 4px solid var(--laranja);
+  border-radius: 0 var(--radius-pequeno) var(--radius-pequeno) 0;
+  padding: 24px 28px;
+  font-size: 1.1rem;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.validacao-citacao::before {
+  content: '\201C';
+  font-size: 2rem;
+  color: var(--laranja);
+  line-height: 0;
+  vertical-align: -10px;
+  margin-right: 4px;
+}
+
+/* ===== FAQ ===== */
+.faq-lista {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: var(--branco);
+  border-radius: var(--radius-pequeno);
+  margin-bottom: 12px;
+  box-shadow: var(--sombra);
+  border: 1px solid var(--cinza-borda);
+  overflow: hidden;
+}
+
+.faq-pergunta {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 22px 24px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--texto);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: background var(--transicao);
+}
+
+.faq-pergunta:hover {
+  background: var(--verde-suave);
+}
+
+.faq-pergunta .icone-toggle {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--verde-suave);
+  border-radius: 50%;
+  color: var(--verde-titulo);
+  font-size: 1.3rem;
+  font-weight: 900;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.aberto .icone-toggle {
+  transform: rotate(45deg);
+  background: var(--laranja);
+  color: var(--verde-escuro);
+}
+
+.faq-resposta {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  padding: 0 24px;
+}
+
+.faq-item.aberto .faq-resposta {
+  max-height: 300px;
+  padding: 0 24px 22px;
+}
+
+.faq-resposta p {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  opacity: 0.88;
+}
+
+/* ===== CTA FINAL ===== */
+.cta-final {
+  background: var(--verde-escuro);
+  color: var(--texto-claro);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-final::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: rgba(242, 163, 58, 0.08);
+  border-radius: 50%;
+}
+
+.cta-final h2 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 12px;
+  line-height: 1.2;
+  position: relative;
+}
+
+.cta-final .sub {
+  font-size: 1.15rem;
+  opacity: 0.8;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+/* ===== FORMULÁRIO ===== */
+.form-wrap {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--branco);
+  border-radius: var(--radius);
+  padding: 40px 36px;
+  text-align: left;
+  box-shadow: var(--sombra-forte);
+  position: relative;
+}
+
+.form-grupo {
+  margin-bottom: 20px;
+}
+
+.form-grupo label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  color: var(--texto);
+}
+
+.form-grupo input[type="text"],
+.form-grupo input[type="tel"],
+.form-grupo input[type="email"] {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 2px solid var(--cinza-borda);
+  border-radius: var(--radius-pequeno);
+  background: var(--off-white);
+  color: var(--texto);
+  transition: border var(--transicao);
+}
+
+.form-grupo input:focus {
+  border-color: var(--verde-titulo);
+  outline: none;
+  background: var(--branco);
+}
+
+.form-consentimento {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 20px 0 24px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+.form-consentimento input[type="checkbox"] {
+  flex-shrink: 0;
+  width: 18px; height: 18px;
+  margin-top: 2px;
+  accent-color: var(--verde-titulo);
+}
+
+.form-feedback {
+  display: none;
+  text-align: center;
+  padding: 20px;
+}
+
+.form-feedback.show {
+  display: block;
+  animation: msgEntrar 0.4s ease;
+}
+
+.form-feedback-icone {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: var(--verde-suave);
+  color: var(--verde-titulo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.form-feedback h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--verde-titulo);
+  margin-bottom: 8px;
+}
+
+.form-feedback p {
+  font-size: 0.98rem;
+  opacity: 0.85;
+}
+
+/* ===== RODAPÉ ===== */
+.rodape {
+  background: var(--verde-escuro);
+  color: var(--texto-claro);
+  padding: 40px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.rodape-conteudo {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  line-height: 1.7;
+}
+
+.rodape-logo {
+  font-size: 1.3rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+  opacity: 1;
+}
+
+.rodape-logo .mais { color: var(--laranja); }
+
+.rodape-aviso {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  opacity: 0.6;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== ANIMAÇÃO ENTRADA (base) ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Cascade: filhos de grids revelam em cascata */
+.reveal.visible .reveal,
+.beneficios-grid .beneficio-card.reveal:nth-child(2),
+.passos .passo.reveal:nth-child(2),
+.validacao-grid .validacao-stat.reveal:nth-child(2),
+.problema-cards .problema-card.reveal:nth-child(2) {
+  transition-delay: 0.15s;
+}
+.beneficios-grid .beneficio-card.reveal:nth-child(3),
+.passos .passo.reveal:nth-child(3),
+.validacao-grid .validacao-stat.reveal:nth-child(3),
+.problema-cards .problema-card.reveal:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+/* ===== HERO: ENTRADA EM CASCATA ===== */
+.hero-content > * {
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: heroSlideIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.hero-content > *:nth-child(1) { animation-delay: 0.2s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.45s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.7s; }
+
+@keyframes heroSlideIn {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ===== CELULAR FLUTUANTE ===== */
+.hero-visual {
+  animation: celularEntrar 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.celular {
+  animation: celularFlutuar 4s ease-in-out infinite;
+}
+
+@keyframes celularEntrar {
+  from { opacity: 0; transform: translateX(40px) scale(0.9); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes celularFlutuar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+/* ===== EFEITO RIPPLE NO BOTÃO ===== */
+.btn-principal {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-principal::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease, height 0.5s ease;
+}
+
+.btn-principal:active::after {
+  width: 300px; height: 300px;
+  transition: 0s;
+}
+
+/* ===== BRILHO NO LOGO ===== */
+.logo .mais {
+  animation: brilhoMais 3s ease-in-out infinite;
+}
+
+@keyframes brilhoMais {
+  0%, 100% { text-shadow: 0 0 0 transparent; transform: scale(1); }
+  50% { text-shadow: 0 0 12px rgba(242, 163, 58, 0.6); transform: scale(1.15); }
+}
+
+/* ===== PASSOS: NÚMERO PULSANTE ===== */
+.passo-numero {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.passo:hover .passo-numero {
+  transform: scale(1.15);
+}
+
+.passo-numero::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--laranja);
+  opacity: 0;
+  animation: pulsoAnel 2.5s ease-in-out infinite;
+}
+
+.passo:nth-child(2) .passo-numero::before { animation-delay: 0.8s; }
+.passo:nth-child(3) .passo-numero::before { animation-delay: 1.6s; }
+
+@keyframes pulsoAnel {
+  0% { opacity: 0; transform: scale(1); }
+  50% { opacity: 0.5; }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+
+/* ===== BENEFÍCIOS: ÍCONE GIRATÓRIO + CARD 3D ===== */
+.beneficio-card {
+  perspective: 800px;
+}
+
+.beneficio-card:hover .beneficio-icone {
+  animation: iconeGirar 0.6s ease;
+}
+
+@keyframes iconeGirar {
+  0% { transform: rotateY(0); }
+  50% { transform: rotateY(180deg) scale(1.1); }
+  100% { transform: rotateY(360deg); }
+}
+
+/* ===== PROBLEMA CARDS: ENTRADA LATERAL ===== */
+.problema-card {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.problema-cards.visible .problema-card {
+  animation: cardEntrar 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.problema-cards.visible .problema-card:nth-child(1) { animation-delay: 0.1s; }
+.problema-cards.visible .problema-card:nth-child(2) { animation-delay: 0.3s; }
+.problema-cards.visible .problema-card:nth-child(3) { animation-delay: 0.5s; }
+
+@keyframes cardEntrar {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.problema-card:hover {
+  transform: translateX(6px);
+  box-shadow: 0 4px 20px rgba(216, 74, 56, 0.15);
+}
+
+/* ===== ÍCONE DO PROBLEMA: TREMOR ===== */
+.problema-card:hover .problema-card-icone {
+  animation: tremor 0.4s ease;
+}
+
+@keyframes tremor {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-3px) rotate(-5deg); }
+  40% { transform: translateX(3px) rotate(5deg); }
+  60% { transform: translateX(-2px) rotate(-3deg); }
+  80% { transform: translateX(2px) rotate(3deg); }
+}
+
+/* ===== TABELA: DESTAQUE PISCANTE ===== */
+.tabela th.destaque-col::after {
+  animation: brilhoBarra 2s ease-in-out infinite;
+}
+
+@keyframes brilhoBarra {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 transparent; }
+  50% { opacity: 0.6; box-shadow: 0 0 10px rgba(242, 163, 58, 0.5); }
+}
+
+/* ===== VALIDAÇÃO: CONTADOR ===== */
+.validacao-numero {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.validacao-stat.visible .validacao-numero {
+  opacity: 1;
+  transform: scale(1);
+  animation: numeroBrilho 0.6s ease 0.3s;
+}
+
+@keyframes numeroBrilho {
+  0% { text-shadow: 0 0 0 transparent; }
+  50% { text-shadow: 0 0 20px rgba(242, 163, 58, 0.6); }
+  100% { text-shadow: 0 0 0 transparent; }
+}
+
+/* ===== FAQ: SLIDE SUAVE ===== */
+.faq-item {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.faq-item:hover {
+  transform: translateX(4px);
+}
+
+.faq-item.aberto {
+  box-shadow: 0 6px 30px rgba(15, 61, 58, 0.15);
+}
+
+.faq-resposta p {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+}
+
+.faq-item.aberto .faq-resposta p {
+  opacity: 0.88;
+  transform: translateY(0);
+}
+
+/* ===== CTA FINAL: FUNDO ANIMADO ===== */
+.cta-final::before {
+  animation: bolhaFlutuar 6s ease-in-out infinite;
+}
+
+@keyframes bolhaFlutuar {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-20px, 15px) scale(1.1); }
+  66% { transform: translate(15px, -10px) scale(0.95); }
+}
+
+/* segunda bolha decorativa */
+.cta-final::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 250px; height: 250px;
+  background: rgba(242, 163, 58, 0.05);
+  border-radius: 50%;
+  animation: bolhaFlutuar2 8s ease-in-out infinite reverse;
+}
+
+@keyframes bolhaFlutuar2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -20px) scale(1.15); }
+}
+
+/* ===== FORM FEEDBACK: CHECK ANIMADO ===== */
+.form-feedback.show .form-feedback-icone {
+  animation: checkPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.form-feedback.show .form-feedback-icone svg {
+  animation: checkDesenhar 0.5s ease 0.2s both;
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+}
+
+@keyframes checkPop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes checkDesenhar {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ===== INPUT FOCUS: BORDA ANIMADA ===== */
+.form-grupo input:focus {
+  animation: inputGlow 0.4s ease;
+}
+
+@keyframes inputGlow {
+  0% { box-shadow: 0 0 0 0 rgba(11, 122, 75, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(11, 122, 75, 0.15); }
+  100% { box-shadow: 0 0 0 0 rgba(11, 122, 75, 0); }
+}
+
+/* ===== BARRA DE PROGRESSO DE LEITURA ===== */
+.progresso-leitura {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--laranja), var(--verde-titulo));
+  z-index: 999;
+  transition: width 0.1s linear;
+}
+
+/* ===== PARTÍCULAS NO HERO ===== */
+.hero-particulas {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.hero-grid { position: relative; z-index: 1; }
+
+.hero-particula {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(242, 163, 58, 0.15);
+  pointer-events: none;
+  animation: particulaSubir linear infinite;
+}
+
+@keyframes particulaSubir {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(-300px) translateX(var(--drift, 0)); opacity: 0; }
+}
+
+/* ===== NAVBAR: SHRINK NO SCROLL ===== */
+.navbar.shrink {
+  padding: 0;
+}
+.navbar.shrink .navbar-inner {
+  padding: 8px 24px;
+  transition: padding 0.3s ease;
+}
+.navbar.shrink .logo {
+  font-size: 1.25rem;
+  transition: font-size 0.3s ease;
+}
+
+.navbar-inner {
+  transition: padding 0.3s ease;
+}
+
+.logo {
+  transition: font-size 0.3s ease;
+}
+
+/* ===== RESPONSIVO: DESLIGA ANIMAÇÕES PESADAS NO MOBILE ===== */
+@media (max-width: 900px) {
+  .celular { animation: celularFlutuar 5s ease-in-out infinite; }
+  .hero-content > * { animation-duration: 0.6s; }
+}
+
+@media (max-width: 480px) {
+  .celular { animation: none; }
+  .passo-numero::before { animation: none; }
+  .hero-particula { display: none; }
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 900px) {
+  html { font-size: 17px; }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .hero-content { order: 1; }
+  .hero-visual { order: 2; }
+
+  .hero-botoes { align-items: center; }
+  .apoio { justify-content: center; }
+
+  .hero-content h1 { font-size: 2.1rem; }
+
+  .problema-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .passos {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .beneficios-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .validacao-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .celular {
+    width: 260px;
+    height: 480px;
+  }
+
+  section { padding: 56px 0; }
+  .section-titulo { font-size: 1.7rem; }
+  .cta-final h2 { font-size: 1.8rem; }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 0 18px; }
+  .navbar-inner { padding: 12px 18px; }
+  .hero-content h1 { font-size: 1.8rem; }
+  .hero-sub { font-size: 1.05rem; }
+  .btn { width: 100%; padding: 15px 24px; }
+  .form-wrap { padding: 28px 22px; }
+  .celular { width: 230px; height: 430px; }
+  .section-titulo { font-size: 1.5rem; }
+  .cta-final h2 { font-size: 1.5rem; }
+  .navbar .btn-pequeno { width: auto; padding: 8px 18px; font-size: 0.88rem; }
+}
+</style>
+</head>
+<body>
+
+<a href="#formulario" class="skip-link">Ir direto para o cadastro</a>
+<div class="progresso-leitura" id="progresso-leitura" aria-hidden="true"></div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" role="navigation" aria-label="Navegação principal">
+  <div class="navbar-inner">
+    <a href="#" class="logo" aria-label="Lembra+ - página inicial">
+      💊 Lembra<span class="mais">+</span>
+    </a>
+    <a href="#formulario" class="btn btn-principal btn-pequeno">Entrar na lista</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" role="banner">
+  <div class="hero-particulas" id="hero-particulas" aria-hidden="true"></div>
+  <div class="hero-grid">
+    <div class="hero-content">
+      <h1><span class="destaque">"Já tomou o remédio?"</span> Você não precisa mais perguntar.</h1>
+      <p class="hero-sub">
+        O Lembra+ lembra seu pai, sua mãe ou seus avós pelo WhatsApp na hora certa e avisa você se eles não confirmarem.
+      </p>
+      <div class="hero-botoes">
+        <a href="#formulario" class="btn btn-principal">Quero entrar na lista de espera</a>
+        <p class="apoio">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Sem instalar aplicativo. Sem aprender nada novo.
+        </p>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="celular" aria-hidden="true">
+        <div class="tela">
+          <div class="whats-header">
+            <div class="whats-avatar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <div class="whats-info">
+              <strong>Lembra+</strong>
+              <span>online</span>
+            </div>
+          </div>
+          <div class="whats-body">
+            <div class="msg msg-bot">
+              ☀️ Bom dia, dona Maria! Hora de tomar o remédio da pressão. Capricapsio 1 cápsula.
+              <div class="msg-hora">8:00</div>
+            </div>
+            <div class="msg msg-user">
+              Tomei 😊
+              <div class="msg-hora">8:02 <span class="whats-check">✓✓</span></div>
+            </div>
+            <div class="msg msg-bot">
+              Perfeito! Até a próxima, às 14h. 💚
+              <div class="msg-hora">8:02</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PROBLEMA ===== -->
+<section class="bg-claro" id="problema" aria-labelledby="problema-titulo">
+  <div class="container">
+    <div class="problema-grid">
+      <div class="reveal">
+        <h2 class="section-titulo" id="problema-titulo">Você trabalha o dia todo. Eles tomam remédio o dia todo.</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+          Cinco remédios, quatro horários. O alarme do celular toca, é desligado e ninguém fica sabendo. Você descobre o esquecimento só depois do susto, e vive ligando para checar.
+        </p>
+      </div>
+
+      <div class="problema-cards reveal">
+        <div class="problema-card">
+          <div class="problema-card-icone" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <p><strong>Alarme desligado, remédio esquecido.</strong> O lembrete toca, mas ninguém confirma que tomou.</p>
+        </div>
+        <div class="problema-card">
+          <div class="problema-card-icone" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+          </div>
+          <p><strong>Vive ligando para checar.</strong> No meio do trabalho, você para tudo para perguntar: "tomou o remédio?"</p>
+        </div>
+        <div class="problema-card">
+          <div class="problema-card-icone" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
+          <p><strong>O susto de descobrir tarde demais.</strong> Quando você percebe que faltou uma dose, já é noite — ou pior.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMO FUNCIONA ===== -->
+<section class="bg-escuro" id="como-funciona" aria-labelledby="como-titulo">
+  <div class="container">
+    <h2 class="section-titulo reveal" id="como-titulo" style="text-align: center;">Como funciona, em 3 passos</h2>
+    <p class="section-sub reveal" style="margin-left: auto; margin-right: auto; text-align: center;">Simples de configurar, simples de usar. Para você e para quem toma.</p>
+
+    <div class="passos">
+      <div class="passo reveal">
+        <div class="passo-numero">1</div>
+        <h3>Você cadastra</h3>
+        <p>Os remédios e horários que o médico já indicou. Leva poucos minutos.</p>
+      </div>
+      <div class="passo reveal">
+        <div class="passo-numero">2</div>
+        <h3>Ele recebe o lembrete</h3>
+        <p>Uma mensagem carinhosa no WhatsApp, por texto ou áudio, e responde "Tomei".</p>
+      </div>
+      <div class="passo reveal">
+        <div class="passo-numero">3</div>
+        <h3>Você é avisado</h3>
+        <p>Se ele não confirmar, você sabe na hora. Acompanhe a semana inteira num painel simples.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BENEFÍCIOS ===== -->
+<section class="bg-claro" id="beneficios" aria-labelledby="beneficios-titulo">
+  <div class="container">
+    <h2 class="section-titulo reveal" id="beneficios-titulo">Benefícios de verdade, para cada pessoa da família</h2>
+
+    <div class="beneficios-grid">
+      <div class="beneficio-card reveal">
+        <div class="beneficio-icone verde" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </div>
+        <h3>Para quem cuida</h3>
+        <p>Tranquilidade sem ligações o tempo todo e a certeza de que a mensagem foi vista.</p>
+      </div>
+
+      <div class="beneficio-card reveal">
+        <div class="beneficio-icone laranja" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </div>
+        <h3>Para quem toma</h3>
+        <p>Nada de aplicativo novo, só o WhatsApp que já usa. Mensagens curtas e carinhosas, sem tratar ninguém como criança.</p>
+      </div>
+
+      <div class="beneficio-card reveal">
+        <div class="beneficio-icone azul" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h3>Para a família toda</h3>
+        <p>Menos sustos, mais conversa de verdade quando vocês se falam. O remédio sai do centro da conversa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMPARAÇÃO ===== -->
+<section class="bg-suave" id="comparacao" aria-labelledby="comp-titulo">
+  <div class="container">
+    <h2 class="section-titulo reveal" id="comp-titulo" style="text-align: center;">Comparação rápida</h2>
+    <p class="section-sub reveal" style="margin-left: auto; margin-right: auto; text-align: center;">Veja como o Lembra+ se compara às alternativas que a família já conhece.</p>
+
+    <div class="tabela-wrap reveal">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th scope="col">Característica</th>
+            <th scope="col">Alarme do celular</th>
+            <th scope="col">Apps de lembrete</th>
+            <th scope="col">Cuidador</th>
+            <th scope="col" class="destaque-col">Lembra+</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Avisa a família</td>
+            <td><span class="nao" aria-label="não">✗ Não</span></td>
+            <td><span class="parcial" aria-label="às vezes">Às vezes</span></td>
+            <td><span class="sim" aria-label="sim">✓ Sim</span></td>
+            <td class="destaque-col"><span class="sim" aria-label="sim">✓ Sim</span></td>
+          </tr>
+          <tr>
+            <td>Funciona sem instalar nada</td>
+            <td><span class="sim">✓ Sim</span></td>
+            <td><span class="nao">✗ Não</span></td>
+            <td><span class="sim">✓ Sim</span></td>
+            <td class="destaque-col"><span class="sim">✓ Sim</span></td>
+          </tr>
+          <tr>
+            <td>Custo</td>
+            <td>Grátis</td>
+            <td>Varia</td>
+            <td>Alto</td>
+            <td class="destaque-col"><strong>Mensalidade acessível</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VALIDAÇÃO ===== -->
+<section class="bg-escuro" id="validacao" aria-labelledby="val-titulo">
+  <div class="container">
+    <h2 class="section-titulo reveal" id="val-titulo" style="text-align: center;">O que estamos ouvindo das famílias</h2>
+
+    <div class="validacao-grid">
+      <div class="validacao-stat reveal">
+        <span class="validacao-numero">79</span>
+        <span class="validacao-label">famílias ouvidas</span>
+      </div>
+      <div class="validacao-stat reveal">
+        <span class="validacao-numero">68,4%</span>
+        <span class="validacao-label">já tiveram esquecimento de remédio</span>
+      </div>
+      <div class="validacao-stat reveal">
+        <span class="validacao-numero">72,2%</span>
+        <span class="validacao-label">usariam o Lembra+</span>
+      </div>
+    </div>
+
+    <div class="validacao-citacao reveal">
+      [Uma vez, minha avó materna esqueceu de tomar os remédios por alguns dias e acabou tendo AVC.]
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="bg-claro" id="faq" aria-labelledby="faq-titulo">
+  <div class="container">
+    <h2 class="section-titulo reveal" id="faq-titulo" style="text-align: center;">Perguntas frequentes</h2>
+
+    <div class="faq-lista reveal">
+      <div class="faq-item">
+        <button class="faq-pergunta" aria-expanded="false" aria-controls="faq-r1">
+          <span>O Lembra+ indica remédio ou dose?</span>
+          <span class="icone-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-resposta" id="faq-r1" role="region">
+          <p>Não. Ele só lembra os horários que o médico já definiu e não substitui médico nem cuidador.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pergunta" aria-expanded="false" aria-controls="faq-r2">
+          <span>Meu familiar precisa saber usar aplicativo?</span>
+          <span class="icone-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-resposta" id="faq-r2" role="region">
+          <p>Não, basta usar o WhatsApp — que ele já usa todos os dias.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pergunta" aria-expanded="false" aria-controls="faq-r3">
+          <span>E se ele não responder?</span>
+          <span class="icone-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-resposta" id="faq-r3" role="region">
+          <p>Repetimos o lembrete uma vez e, se ainda assim não houver confirmação, avisamos você automaticamente.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pergunta" aria-expanded="false" aria-controls="faq-r4">
+          <span>Meus dados ficam seguros?</span>
+          <span class="icone-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-resposta" id="faq-r4" role="region">
+          <p>[descreva como os dados são tratados, conforme a LGPD — incluindo quais dados são coletados, finalidade, compartilhamento com terceiros e direito de acesso, correção e exclusão].</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pergunta" aria-expanded="false" aria-controls="faq-r5">
+          <span>Quanto custa?</span>
+          <span class="icone-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-resposta" id="faq-r5" role="region">
+          <p>[valor a definir]. Haverá um plano grátis com 1 lembrete, para você testar com calma antes de assinar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA FINAL + FORMULÁRIO ===== -->
+<section class="cta-final" id="formulario" aria-labelledby="cta-titulo">
+  <div class="container">
+    <h2 class="reveal" id="cta-titulo">Quem você ama não esquece o remédio. E você não perde o sono.</h2>
+    <p class="sub reveal">Entre para a lista de espera. Assim que o Lembra+ abrir, você é um dos primeiros a saber.</p>
+
+    <div class="form-wrap reveal">
+      <!-- FORMULÁRIO -->
+      <!-- Para conectar o envio real: substitua o handler JavaScript abaixo por uma chamada fetch()
+           para seu endpoint (ex.: /api/waitlist) ou integre com um serviço de formulário. -->
+      <form id="form-espera" novalidate>
+        <div class="form-grupo">
+          <label for="campo-nome">Nome</label>
+          <input type="text" id="campo-nome" name="nome" required autocomplete="name" placeholder="Seu nome">
+        </div>
+        <div class="form-grupo">
+          <label for="campo-whatsapp">WhatsApp</label>
+          <input type="tel" id="campo-whatsapp" name="whatsapp" required autocomplete="tel" placeholder="(11) 99999-9999">
+        </div>
+        <div class="form-grupo">
+          <label for="campo-email">E-mail</label>
+          <input type="email" id="campo-email" name="email" required autocomplete="email" placeholder="seu@email.com">
+        </div>
+        <div class="form-consentimento">
+          <input type="checkbox" id="campo-consentimento" name="consentimento" required>
+          <label for="campo-consentimento">Concordo em receber avisos sobre o lançamento do Lembra+ pelo WhatsApp e e-mail. Meus dados serão tratados conforme a LGPD e não serão compartilhados com terceiros.</label>
+        </div>
+        <button type="submit" class="btn btn-principal" style="width: 100%;">Quero ser avisado quando abrir</button>
+      </form>
+
+      <!-- FEEDBACK DE SUCESSO -->
+      <div class="form-feedback" id="form-feedback" role="status" aria-live="polite">
+        <div class="form-feedback-icone" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h3>Obrigado! Você está na lista.</h3>
+        <p>Assim que o Lembra+ estiver pronto, você será um dos primeiros a saber. 💊💚</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RODAPÉ ===== -->
+<footer class="rodape" role="contentinfo">
+  <div class="container rodape-conteudo">
+    <div class="rodape-logo">💊 Lembra<span class="mais">+</span></div>
+    <p>&copy; Lembra+ · Projeto em fase de validação</p>
+    <p class="rodape-aviso">
+      O Lembra+ é um serviço de lembrete de horários de medicação. Não substitui orientação médica, prescrição de medicamentos nem o acompanhamento de um profissional de saúde ou cuidador.
+    </p>
+  </div>
+</footer>
+
+<script>
+// ===== FAQ ACORDEÃO =====
+document.querySelectorAll('.faq-pergunta').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var item = btn.parentElement;
+    var isOpen = item.classList.contains('aberto');
+
+    // Fecha todos
+    document.querySelectorAll('.faq-item').forEach(function(el) {
+      el.classList.remove('aberto');
+      el.querySelector('.faq-pergunta').setAttribute('aria-expanded', 'false');
+    });
+
+    // Abre o clicado se estava fechado
+    if (!isOpen) {
+      item.classList.add('aberto');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
+// ===== ROLAGEM SUAVE (fallback para browsers sem scroll-behavior) =====
+document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    var href = link.getAttribute('href');
+    if (href === '#' || href === '') return;
+    var target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ===== FORMULÁRIO =====
+var form = document.getElementById('form-espera');
+var feedback = document.getElementById('form-feedback');
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  var nome = document.getElementById('campo-nome');
+  var whatsapp = document.getElementById('campo-whatsapp');
+  var email = document.getElementById('campo-email');
+  var consent = document.getElementById('campo-consentimento');
+
+  if (!nome.value.trim() || !whatsapp.value.trim() || !email.value.trim()) {
+    alert('Por favor, preencha todos os campos.');
+    return;
+  }
+
+  if (!consent.checked) {
+    alert('Por favor, marque o consentimento para continuar.');
+    return;
+  }
+
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email.value.trim())) {
+    alert('Por favor, informe um e-mail válido.');
+    return;
+  }
+
+  // === AQUI VOCÊ CONECTA O ENVIO REAL ===
+  // fetch('/api/waitlist', { method: 'POST', ... })
+
+  form.style.display = 'none';
+  feedback.classList.add('show');
+});
+
+// ===== ANIMAÇÃO DE ENTRADA (Intersection Observer) =====
+if ('IntersectionObserver' in window) {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    observer.observe(el);
+  });
+} else {
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    el.classList.add('visible');
+  });
+}
+
+// ===== BARRA DE PROGRESSO DE LEITURA =====
+var barraProgresso = document.getElementById('progresso-leitura');
+window.addEventListener('scroll', function() {
+  var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  var alturaTotal = document.documentElement.scrollHeight - window.innerHeight;
+  var porcentagem = (scrollTop / alturaTotal) * 100;
+  barraProgresso.style.width = porcentagem + '%';
+}, { passive: true });
+
+// ===== NAVBAR SHRINK NO SCROLL =====
+var navbar = document.querySelector('.navbar');
+window.addEventListener('scroll', function() {
+  if (window.pageYOffset > 60) {
+    navbar.classList.add('shrink');
+  } else {
+    navbar.classList.remove('shrink');
+  }
+}, { passive: true });
+
+// ===== GERAÇÃO DE PARTÍCULAS NO HERO =====
+(function() {
+  var container = document.getElementById('hero-particulas');
+  if (!container) return;
+  var numParticulas = window.innerWidth > 480 ? 12 : 6;
+
+  for (var i = 0; i < numParticulas; i++) {
+    var p = document.createElement('div');
+    p.className = 'hero-particula';
+    var tamanho = Math.random() * 18 + 6;
+    var left = Math.random() * 100;
+    var duracao = Math.random() * 8 + 6;
+    var delay = Math.random() * 5;
+    var drift = (Math.random() - 0.5) * 80;
+
+    p.style.width = tamanho + 'px';
+    p.style.height = tamanho + 'px';
+    p.style.left = left + '%';
+    p.style.bottom = '-20px';
+    p.style.animationDuration = duracao + 's';
+    p.style.animationDelay = delay + 's';
+    p.style.setProperty('--drift', drift + 'px');
+    container.appendChild(p);
+  }
+})();
+
+// ===== CONTADOR ANIMADO PARA NÚMEROS DE VALIDAÇÃO =====
+(function() {
+  var stats = document.querySelectorAll('.validacao-stat');
+  if (!stats.length) return;
+
+  var observerStats = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      el.classList.add('visible');
+
+      var numero = el.querySelector('.validacao-numero');
+      if (!numero) return;
+
+      // Se o conteúdo for [X], não anima — é placeholder
+      var raw = numero.textContent.trim();
+      if (raw.indexOf('[') !== -1) return;
+
+      // Extrai número e sufixo
+      var match = raw.match(/^(\d+)(.*)$/);
+      if (!match) return;
+
+      var target = parseInt(match[1], 10);
+      var sufixo = match[2];
+      var atual = 0;
+      var incremento = Math.max(1, Math.ceil(target / 40));
+      var intervalo = setInterval(function() {
+        atual += incremento;
+        if (atual >= target) {
+          atual = target;
+          clearInterval(intervalo);
+        }
+        numero.textContent = atual + sufixo;
+      }, 30);
+
+      observerStats.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+
+  stats.forEach(function(s) { observerStats.observe(s); });
+})();
+
+// ===== EFEITO PARALLAX SUAVE NO CELULAR DO HERO =====
+(function() {
+  var celular = document.querySelector('.celular');
+  if (!celular) return;
+
+  // Respeita prefers-reduced-motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var heroVisual = document.querySelector('.hero-visual');
+
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.pageYOffset;
+    if (scrollTop < 600) {
+      var offset = scrollTop * 0.08;
+      celular.style.setProperty('transform', 'translateY(' + offset + 'px)');
+      // Remove a animação de flutuação temporariamente para não conflitar
+      if (scrollTop > 10) {
+        celular.style.animation = 'none';
+      } else {
+        celular.style.animation = '';
+      }
+    }
+  }, { passive: true });
+})();
+
+// ===== TABELA: DESTACAR LINHA AO PASSAR O MOUSE =====
+document.querySelectorAll('.tabela tbody tr').forEach(function(tr) {
+  tr.style.transition = 'background 0.3s ease';
+  tr.addEventListener('mouseenter', function() {
+    tr.style.background = 'rgba(11, 122, 75, 0.04)';
+  });
+  tr.addEventListener('mouseleave', function() {
+    tr.style.background = '';
+  });
+});
+</script>
+
+</body>
+</html>
